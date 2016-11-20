@@ -1,6 +1,5 @@
 # SciMS
-CMS for scientific papers
-Web language courses project at Rouen Normandy University
+CMS for Scientific papers, Rouen Normandy University
 
 ## Énoncé du projet
 
