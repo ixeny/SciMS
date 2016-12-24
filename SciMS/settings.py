@@ -55,7 +55,7 @@ ROOT_URLCONF = 'SciMS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/var/www/SciMS/templates/'],
+        'DIRS': ['/var/www/html/projet/SciMS/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
