@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<link rel="icon" href="{% static 'images/pi.png' %}">
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+<title>Liste des Articles</title>
+</head>
+<body class="container">
+<header>
+	<a href="/">
+	<img id="logo" src="{% static 'images/SciMSlogo.png' %}" alt="SciMS logo" >
+	</a>
+	<h2>Nouvel article</h2>
+</header>
+
+
+<form id="form_article" action="/articles/edit/" method="POST"> {% csrf_token %} 
+	
+	<label for="sel1">Titre</label>
+	<input type="text" class="form-control" value="{{ article.title }}" aria-describedby="basic-addon1" id="title" name="title">
+
+	<div class="form-group">
+	<label for="sel1">Catégorie</label>
+	<select class="form-control" id="sel1">
+		{%for i in categories%}
+	    <option id="{{i.id}}" >{{i.cat_name}}</option>
+		{%endfor%}
+	</select>
+	</div>
+	<label> Mots clefs </label>
+	<input type="text" class="form-control" placeholder="keyword1 ; keyword2 ; keyword3" aria-describedby="basic-addon1" id="keywords" name="keywords">
+
+	<label for="sel1">Résumé</label>
+	
+	<div class="form-group">
+	  <textarea class="form-control" rows="3" id="abstract" name="abstract">{{ article.abstract }}</textarea>
+	</div>
+
+	<label for="sel1">Corps de l'article</label>
+
+	<div class="dropdown">
+	  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	    Insérer
+	    <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+		<li role="presentation" class="default" data-toggle="modal" data-target="#section"><a>Section </a></li>
+		<li role="presentation" class="default" data-toggle="modal" data-target="#subsection"><a>Sous section </a></li>
+		<li role="presentation" class="default" data-toggle="modal" data-target="#formule"><a>Formule mathématique</a></li>
+		<li role="presentation" class="default" data-toggle="modal" data-target="#image"><a>Image</a></li>
+		<li class="default" ><a onclick="putContent(document.getElementById('content'));">Table des matières</a></li>
+	  </ul>
+	</div>
+	
+	<div class="form-group">
+	  <textarea class="form-control" rows="20" id="content" name="content">{{ article.content }}</textarea>
+	</div>
+
+
+
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Modifier</button>
+
+	</form>
+	<a href="/articles/read">
+	<button class="btn btn-lg btn-danger btn-block" type="button" >Annuler</button>
+	</a>
+
+	<div class="modal fade" id="section" role="dialog">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Section</h4>
+		</div>
+		<div class="modal-body">
+		  <input type="text" class="form-control" placeholder="Titre de la section" aria-describedby="basic-addon1" id="sinput"></input>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="putSection(document.getElementById('content'), document.getElementById('sinput').value)">Insérer</button>
+		</div>
+	      </div>
+	    </div>
+	</div>
+
+
+
+	<div class="modal fade" id="subsection" role="dialog">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Sous section</h4>
+		</div>
+		<div class="modal-body">
+		  <input type="text" class="form-control" placeholder="Titre de la sous section" aria-describedby="basic-addon1" id="ssinput"></input>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="putSubSection(document.getElementById('content'), document.getElementById('ssinput').value)">Insérer</button>
+		</div>
+	      </div>
+	    </div>
+	</div>
+
+
+
+	<div class="modal fade" id="formule" role="dialog">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Sous section</h4>
+		</div>
+		<div class="modal-body">
+		  <input type="text" class="form-control" placeholder="Saisissez la formule mathématique" aria-describedby="basic-addon1" id="mfinput"></input>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="putFormula(document.getElementById('content'), document.getElementById('mfinput').value)">Insérer</button>
+		</div>
+	      </div>
+	    </div>
+	</div>
+
+
+
+	<div class="modal fade" id="image" role="dialog">
+	    <div class="modal-dialog modal-sm">
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title">Image</h4>
+		</div>
+		<div class="modal-body">
+		  <input type="text" class="form-control" placeholder="lien vers l'image" aria-describedby="basic-addon1" id="iminput"></input>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="putImage(document.getElementById('content'), document.getElementById('iminput').value)">Insérer</button>
+		</div>
+	      </div>
+	    </div>
+	</div>
+
+
+
+</body>
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
+

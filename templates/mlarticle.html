@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="icon" href="{% static 'images/pi.png' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+
+<title>{{ article.title }}</title>
+</head>
+<body class="container" >
+
+<center>
+<h1>{{ article.title }}</h1>
+Publié le {{ date }}
+</center>
+
+<h4>Auteur: </h4>
+	<p>{{ article.getCapitalizedAuthor }}</p>
+<h4>Résumé: </h4>
+	<p>{{ article.abstract }}</p>
+<div id="artContent">
+{{ content|safe }}
+</div>
+
+</body>
+<script type="text/javascript" src="{% static 'js/myjs.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/sumGenerator.js' %}"></script>
+</html>

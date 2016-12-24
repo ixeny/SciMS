@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="icon" href="{% static 'images/pi.png' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<title>SciMS</title>
+</head>
+<body class="container">
+<header>
+	<a href="/">
+	<img id="logo" src="{% static 'images/SciMSlogo.png' %}" alt="SciMS logo" >
+</header>
+
+
+<iframe class="myframe" src="/articles/{{displayed.id}}/">
+</iframe>
+
+</body>
+
+</html>
